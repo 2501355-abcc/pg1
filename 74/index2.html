@@ -1,1 +1,38 @@
+<!DOCTYPE html>
 <html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>追加ページ</title>
+        <link rel="stylesheet" href="css/style.css">
+        <script src="js/script.js" type="text/javascript" charset="utf-8" defer></script>
+    </head>
+    <body>
+        <h1>読書記録追加</h1>
+
+        <div id="addition">
+            <label for="dateInput">日付</label>
+            <input id="dateInput" type="date">
+            
+            <label for="titleInput">タイトル名</label>
+            <input id="titleInput" type="text" placeholder="作品タイトル">
+            
+            <label for="authorInput">作者名</label>
+            <input id="authorInput" type="text" placeholder="作者名">
+            
+            <label for="memoInput">一言メモ</label>
+            <input id="memoInput" type="text" placeholder="一言メモ">
+
+            <label for="ratingInput">評価</label>
+            <select id="ratingInput">
+                <option value="">なし</option>
+                <option value="1">★1</option>
+                <option value="2">★2</option>
+                <option value="3">★3</option>
+                <option value="4">★4</option>
+                <option value="5">★5</option>
+            </select>
+        </div>
+        
+        <button id="additionConfirmed" onclick="additionalValue()">追加確定</button>
+    </body>
+</html>
