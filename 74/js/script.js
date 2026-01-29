@@ -56,6 +56,7 @@ function bookListDisplay(){
 
     for(let i = 0; i < BOOKS.length; i++){
         let bookDiv = document.createElement("div");
+        bookDiv.classList.add("book-item");
         
         //日付
         let dateP = document.createElement("P");
@@ -103,11 +104,75 @@ function bookListDisplay(){
 
 document.addEventListener("DOMContentLoaded", () => {
     bookListDisplay();
+    let dateInput = document.getElementById("dateInput");
+    if(dateInput){
+        dateInput.value = new Date().toISOString().split("T")[0];
+    }
 });
-
+//削除機能
 function deleteBook(id){
     if(!confirm("この本を削除しますか？")) return;
     BOOKS = BOOKS.filter(book => book.id !== id);
     localStorage.setItem("books", JSON.stringify(BOOKS));
     bookListDisplay();
 }
+
+//検索用関数
+function searchBooks(){
+    let keyword = document.getElementById("titlesearch").value;
+    let bookListId = document.getElementById("booklist");
+    bookListId.innerHTML = "";
+
+    let filterBooks = BOOKS.filter(book =>
+        book.title.includes(keyword)||
+        book.author.includes(keyword)||
+        book.memo.includes(keyword) ||
+        book.date.includes(keyword) ||
+        String(book.rating).includes(keyword)
+    );
+    
+    for(let i = 0; i < filterBooks.length; i++){
+        let bookDiv = document.createElement("div");
+        bookDiv.classList.add("book-item");
+
+        let dateP = document.createElement("p");
+        dateP.textContent = "日付：" + filterBooks[i].date;
+
+        let titleP = document.createElement("p");
+        titleP.textContent = "タイトル：" + filterBooks[i].title;
+
+        let authorP = document.createElement("p");
+        authorP.textContent = "作者：" + filterBooks[i].author;
+
+        let memoP = document.createElement("p");
+        memoP.textContent = "メモ：" + filterBooks[i].memo;
+
+        let ratingP = document.createElement("p");
+        ratingP.textContent = "評価：" + "★".repeat(filterBooks[i].rating);
+
+        let deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "削除";
+        deleteBtn.onclick = function(){
+            deleteBook(filterBooks[i].id);
+        }
+
+        bookDiv.appendChild(dateP);
+        bookDiv.appendChild(titleP);
+        bookDiv.appendChild(authorP);
+        bookDiv.appendChild(memoP);
+        bookDiv.appendChild(ratingP);
+        bookDiv.appendChild(deleteBtn);
+
+        bookListId.appendChild(bookDiv);
+
+        let countP = document.getElementById("count");
+        if(countP){
+            countP.textContent = filterBooks.length + "件";
+        }
+
+    }
+
+}
+
+
+
