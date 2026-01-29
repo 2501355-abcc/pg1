@@ -85,15 +85,29 @@ function bookListDisplay(){
 
         bookListId.appendChild(bookDiv);
         console.log(BOOKS[i]);
+
+        //削除ボタン
+        let deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "削除";
+        deleteBtn.onclick = function(){
+            deleteBook(BOOKS[i].id);
+        }
+        bookDiv.appendChild(deleteBtn);
     }
 
     let countP = document.getElementById("count");
     if(countP){
         countP.textContent = BOOKS.length + "件";
     }
-
 }
 
 document.addEventListener("DOMContentLoaded", () => {
     bookListDisplay();
 });
+
+function deleteBook(id){
+    if(!confirm("この本を削除しますか？")) return;
+    BOOKS = BOOKS.filter(book => book.id !== id);
+    localStorage.setItem("books", JSON.stringify(BOOKS));
+    bookListDisplay();
+}
